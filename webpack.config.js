@@ -2,13 +2,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'main.js',
+        filename: '[name][contenthash].js',
         assetModuleFilename: 'assets/[hash][ext][query]'
+    },
+    optimization: {
+        minimize: true
     },
     resolve: {
         extensions: ['.js']
@@ -34,7 +38,7 @@ module.exports = {
                 test: /\.png/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/images/[hash][ext]'
+                    filename: 'assets/images/[contenthash][ext]'
                 }
 
             },
@@ -42,7 +46,7 @@ module.exports = {
                 test: /\.(woff|woff2)$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/fonts/[hash][ext]'
+                    filename: 'assets/fonts/[contenthash][ext]'
                 }
             }
         ]
@@ -53,7 +57,10 @@ module.exports = {
             template: './public/index.html',
             filename: 'index.html'
         }),
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'assets/styles/[name][contenthash].css'
+        }),
+        new CssMinimizerPlugin(),
     ]
 
 }
