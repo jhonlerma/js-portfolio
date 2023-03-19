@@ -28,6 +28,10 @@ module.exports = {
                     'css-loader',
                     'stylus-loader'
                 ]
+            },
+            {
+                test: /\.png/,
+                type: 'asset/resource'
             }
         ]
     },
@@ -38,14 +42,14 @@ module.exports = {
             filename: 'index.html'
         }),
         new MiniCssExtractPlugin(),
-        new CopyPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, 'src', 'assets/images'),
-                    to: 'assets/images'
-                }
-            ]
-        })
+        // new CopyPlugin({
+        //     patterns: [
+        //         {
+        //             from: path.resolve(__dirname, 'src', 'assets/images'),
+        //             to: 'assets/images'
+        //         }
+        //     ]
+        // })
     ]
 
 }
